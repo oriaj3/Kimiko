@@ -22,6 +22,10 @@
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
+#define OLED_FONT_H "keyboards/keycapsss/kimiko/keymaps/matrix/glcdfont.c"
+// #define OLED_FONT_WIDTH 5
+// #define OLED_FONT_HEIGHT 7
+
 #ifdef RGB_MATRIX_ENABLE
 #   define RGB_MATRIX_KEYPRESSES // reacts to keypresses
 // #   define RGB_MATRIX_KEYRELEASES // reacts to keyreleases (instead of keypresses)
