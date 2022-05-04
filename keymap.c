@@ -1,4 +1,5 @@
-/* Copyright 2020 Drashna Jaelre <@drashna>
+/* Copyright 2019 Leo Batyuk
+ * Copyright 2020 Drashna Jaelre <@drashna>
  * Copyright 2020 @ben_roe (keycapsss.com)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +18,6 @@
 
 #include QMK_KEYBOARD_H
 #include <stdio.h>
-
 enum layers {
     _QWERTY,
     _LOWER,
@@ -27,6 +27,7 @@ enum layers {
 
 #define RAISE MO(_RAISE)
 #define LOWER MO(_LOWER)
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -111,7 +112,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (is_keyboard_master()) {
         return OLED_ROTATION_270;
@@ -282,9 +283,6 @@ static void render_logo_panda(void) {
        };
    oled_write_raw_P(my_logo, sizeof(my_logo));
 }
-
-
-
 void render_layer_state(void) {
     static const char PROGMEM default_layer[] = {
         0x20, 0x94, 0x95, 0x96, 0x20,
@@ -544,9 +542,7 @@ void render_modificadores(uint8_t led_usb_state) {
     
 }
 */
-
-
-void render_status_main(void) {
+void render_status_main(void) {                                                                                           
     //render_space();
     //render_space();
     //render_logo();
@@ -575,14 +571,13 @@ void render_status_secondary(void) {
    
 }
 
-
-
-void oled_task_user(void) {
+bool oled_task_user(void) {
     if (is_keyboard_master()) {
         render_status_main();  // Renders the current keyboard state (layer, lock, caps, scroll, etc)
     } else {
         render_status_secondary();
     }
+    return false;
 }
 
 #endif
@@ -630,9 +625,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             case _QWERTY:
                 // Scroll by Word
                 if (clockwise) {
-                    tap_code16(KC_RGHT);
+                    tap_code16(LCTL(KC_RGHT));
                 } else {
-                    tap_code16(KC_LEFT);
+                    tap_code16(LCTL(KC_LEFT));
                 }
                 break;
 
@@ -663,35 +658,68 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 #endif // ENCODER_ENABLE
 
+#ifdef RGB_MATRIX_ENABLE
+led_config_t g_led_config = { {
+    {  24,  23,  18,  17,  10,   9 },
+    {  25,  22,  19,  16,  11,   8 },
+    {  26,  21,  20,  15,  12,   7 },
+    { NO_LED, NO_LED, NO_LED,  14,  13,   6 },
+    {  51,  50,  45,  44,  37,  36 },
+    {  52,  49,  46,  43,  38,  35 },
+    {  53,  48,  47,  42,  39,  34 },
+    { NO_LED, NO_LED, NO_LED,  41,  40,  33 }
+}, {
+    {  85,  16 }, {  50,  13 }, {  16,  20 }, {  16,  38 }, {  50,  48 }, {  85,  52 }, {  95,  63 },
+    {  85,  39 }, {  85,  21 }, {  85,   4 }, {  68,   2 }, {  68,  19 }, {  68,  37 }, {  80,  58 },
+    {  60,  55 }, {  50,  35 }, {  50,  13 }, {  50,   0 }, {  33,   3 }, {  33,  20 }, {  33,  37 },
+    {  16,  42 }, {  16,  24 }, {  16,   7 }, {   0,   7 }, {   0,  24 }, {   0,  41 }, { 139,  16 },
+    { 174,  13 }, { 208,  20 }, { 208,  38 }, { 174,  48 }, { 139,  52 }, { 129,  63 }, { 139,  39 },
+    { 139,  21 }, { 139,   4 }, { 156,   2 }, { 156,  19 }, { 156,  37 }, { 144,  58 }, { 164,  55 },
+    { 174,  35 }, { 174,  13 }, { 174,   0 }, { 191,   3 }, { 191,  20 }, { 191,  37 }, { 208,  42 },
+    { 208,  24 }, { 208,   7 }, { 224,   7 }, { 224,  24 }, { 224,  41 }
+}, {
+    2, 2, 2, 2, 2, 2, 1,
+    4, 4, 4, 4, 4, 4, 1,
+    1, 4, 4, 4, 4, 4, 4,
+    4, 4, 4, 1, 1, 1, 2,
+    2, 2, 2, 2, 2, 1, 4,
+    4, 4, 4, 4, 4, 1, 1,
+    4, 4, 4, 4, 4, 4, 4,
+    4, 4, 1, 1, 1
+} };
+#endif
+
+
+///FUNCIONA PERO RGB CAMBIADOS
 /*
-
-void render_keylock_status(uint8_t led_usb_state) {
-    oled_write_P(PSTR("Lock:"), false);
-    oled_write_P(PSTR(" "), false);
-    oled_write_P(PSTR("N"), led_usb_state & (1 << USB_LED_NUM_LOCK));
-    oled_write_P(PSTR("C"), led_usb_state & (1 << USB_LED_CAPS_LOCK));
-    oled_write_ln_P(PSTR("S"), led_usb_state & (1 << USB_LED_SCROLL_LOCK));
-
-    // render_keylock_status(host_keyboard_leds());
-}
-
-
-
-
-void render_mod_status(uint8_t modifiers) {
-    oled_write_P(PSTR("Mods:"), false);
-    oled_write_P(PSTR(" "), false);
-    oled_write_P(PSTR("S"), (modifiers & MOD_MASK_SHIFT));
-    oled_write_P(PSTR("C"), (modifiers & MOD_MASK_CTRL));
-    oled_write_P(PSTR("A"), (modifiers & MOD_MASK_ALT));
-    oled_write_P(PSTR("G"), (modifiers & MOD_MASK_GUI));
-}
- // render_mod_status(get_mods());
-
-       //uint8_t led_usb_state = host_keyboard_leds();
-  //oled_write_P(led_usb_state & (1<<USB_LED_NUM_LOCK) ? PSTR("NUM ") : PSTR("       "), false);
-  //oled_write_P(led_usb_state & (1<<USB_LED_CAPS_LOCK) ? PSTR("CAP ") : PSTR("       "), false);
-  //oled_write_P(led_usb_state & (1<<USB_LED_SCROLL_LOCK) ? PSTR("SCR ") : PSTR("       "), false);
-
-
+#ifdef RGB_MATRIX_ENABLE
+led_config_t g_led_config = { {
+    {  24,  23,  18,  17,  10,   9 },
+    {  25,  22,  19,  16,  11,   8 },
+    {  26,  21,  20,  15,  12,   7 },
+    { NO_LED, NO_LED, NO_LED,  14,  13,   6 },
+    {  51,  50,  45,  44,  37,  36 },
+    {  52,  49,  46,  43,  38,  35 },
+    {  53,  48,  47,  42,  39,  34 },
+    { NO_LED, NO_LED, NO_LED,  41,  40,  33 }
+}, {
+    {  85,  16 }, {  50,  13 }, {  16,  20 }, {  16,  38 }, {  50,  48 }, {  85,  52 }, {  95,  63 },
+    {  85,  39 }, {  85,  21 }, {  85,   4 }, {  68,   2 }, {  68,  19 }, {  68,  37 }, {  80,  58 },
+    {  60,  55 }, {  50,  35 }, {  50,  13 }, {  50,   0 }, {  33,   3 }, {  33,  20 }, {  33,  37 },
+    {  16,  42 }, {  16,  24 }, {  16,   7 }, {   0,   7 }, {   0,  24 }, {   0,  41 }, { 139,  16 },
+    { 174,  13 }, { 208,  20 }, { 208,  38 }, { 174,  48 }, { 139,  52 }, { 129,  63 }, { 139,  39 },
+    { 139,  21 }, { 139,   4 }, { 156,   2 }, { 156,  19 }, { 156,  37 }, { 144,  58 }, { 164,  55 },
+    { 174,  35 }, { 174,  13 }, { 174,   0 }, { 191,   3 }, { 191,  20 }, { 191,  37 }, { 208,  42 },
+    { 208,  24 }, { 208,   7 }, { 224,   7 }, { 224,  24 }, { 224,  41 }
+}, {
+    2, 2, 2, 2, 2, 2, 1,
+    4, 4, 4, 4, 4, 4, 1,
+    1, 4, 4, 4, 4, 4, 4,
+    4, 4, 4, 1, 1, 1, 2,
+    2, 2, 2, 2, 2, 1, 4,
+    4, 4, 4, 4, 4, 1, 1,
+    4, 4, 4, 4, 4, 4, 4,
+    4, 4, 1, 1, 1
+} };
+#endif
 */

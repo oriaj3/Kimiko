@@ -22,11 +22,25 @@
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
-#define OLED_FONT_H "keyboards/keycapsss/kimiko/keymaps/matrix/glcdfont.c"
+#define OLED_FONT_H "keyboards/keycapsss/kimiko/keymaps/default/glcdfont.c"
 // #define OLED_FONT_WIDTH 5
 // #define OLED_FONT_HEIGHT 7
 
+
+// If you are using an Elite C rev3 on the slave side, uncomment the lines below:
+// #define SPLIT_USB_DETECT
+// #define NO_USB_STARTUP_CHECK
+
+
+
 #ifdef RGB_MATRIX_ENABLE
+
+// The pin connected to the data pin of the LEDs
+#define RGB_DI_PIN D3
+// The number of LEDs connected
+#define DRIVER_LED_TOTAL 60
+#define RGBLED_NUM 60
+
 #   define RGB_MATRIX_KEYPRESSES // reacts to keypresses
 // #   define RGB_MATRIX_KEYRELEASES // reacts to keyreleases (instead of keypresses)
 // #   define RGB_DISABLE_AFTER_TIMEOUT 0 // number of ticks to wait until disabling effects
@@ -39,35 +53,19 @@
 #    define RGB_MATRIX_SAT_STEP 8
 #    define RGB_MATRIX_VAL_STEP 8
 #    define RGB_MATRIX_SPD_STEP 10
+#define RGB_MATRIX_TYPING_HEATMAP_DECREASE_DELAY_MS 50
 
-/* Disable the animations you don't want/need.  You will need to disable a good number of these    *
- * because they take up a lot of space.  Disable until you can successfully compile your firmware. */
-#   define DISABLE_RGB_MATRIX_ALPHAS_MODS
-#   define DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
-#   define DISABLE_RGB_MATRIX_BREATHING
-#   define DISABLE_RGB_MATRIX_CYCLE_ALL
-#   define DISABLE_RGB_MATRIX_CYCLE_LEFT_RIGHT
-#   define DISABLE_RGB_MATRIX_CYCLE_UP_DOWN
-#   define DISABLE_RGB_MATRIX_CYCLE_OUT_IN
-#   define DISABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
-#   define DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
-#   define DISABLE_RGB_MATRIX_DUAL_BEACON
-#   define DISABLE_RGB_MATRIX_RAINBOW_BEACON
-#   define DISABLE_RGB_MATRIX_RAINBOW_PINWHEEL
-#   define DISABLE_RGB_MATRIX_RAINDROPS
-#   define DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
-// #   define DISABLE_RGB_MATRIX_TYPING_HEATMAP
-// #   define DISABLE_RGB_MATRIX_DIGITAL_RAIN
- #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE
- #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
- #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
-// #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
- #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
-// #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
- #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
-// #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
- #   define DISABLE_RGB_MATRIX_SPLASH
-// #   define DISABLE_RGB_MATRIX_MULTISPLASH
- #   define DISABLE_RGB_MATRIX_SOLID_SPLASH
-// #   define DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
+#define RGB_MATRIX_SPLIT {30,30}
+#define SPLIT_TRANSPORT_MIRROR
+
+
+
+#   define ENABLE_RGB_MATRIX_TYPING_HEATMAP
+#   define ENABLE_RGB_MATRIX_DIGITAL_RAIN
+
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
+#   define ENABLE_RGB_MATRIX_MULTISPLASH
+#   define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH
 #endif
