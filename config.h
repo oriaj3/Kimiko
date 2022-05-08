@@ -22,7 +22,8 @@
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
-#define OLED_FONT_H "keyboards/keycapsss/kimiko/keymaps/default/glcdfont.c"
+#define OLED_FONT_H "keyboards/keycapsss/kimiko/keymaps/oriaj3/glcdfont_oriaj3.c"
+
 // #define OLED_FONT_WIDTH 5
 // #define OLED_FONT_HEIGHT 7
 
@@ -41,6 +42,9 @@
 #define DRIVER_LED_TOTAL 60
 #define RGBLED_NUM 60
 #define RGB_MATRIX_SPLIT {30,30}
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_TRANSPORT_MIRROR
+
 
 #   define RGB_MATRIX_KEYPRESSES // reacts to keypresses
 // #   define RGB_MATRIX_KEYRELEASES // reacts to keyreleases (instead of keypresses)
@@ -51,25 +55,22 @@
 // #   define RGB_MATRIX_LED_FLUSH_LIMIT 16 // limits in milliseconds how frequently an animation will update the LEDs. 16 (16ms) is equivalent to limiting to 60fps (increases keyboard responsiveness)
 #    define RGB_MATRIX_MAXIMUM_BRIGHTNESS 80 // limits maximum brightness of LEDs to 80 out of 255. Higher may cause the controller to crash.
 #    define RGB_MATRIX_HUE_STEP 8
-#    define RGB_MATRIX_SAT_STEP 8
-#    define RGB_MATRIX_VAL_STEP 8
+#    define RGB_MATRIX_SAT_STEP jjsjjaiorjoaij]#    define RGB_MATRIX_VAL_STEP 8
 #    define RGB_MATRIX_SPD_STEP 10
 #define RGB_MATRIX_TYPING_HEATMAP_DECREASE_DELAY_MS 50
 
 
-#define SPLIT_TRANSPORT_MIRROR
 
 
 #   define ENABLE_RGB_MATRIX_BAND_SPLIT
+#   define ENABLE_RGB_MATRIX_CYCLE_UP_DOWN
 #   define ENABLE_RGB_MATRIX_TYPING_HEATMAP
 #   define ENABLE_RGB_MATRIX_DIGITAL_RAIN
-#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
 #   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
-#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
 //#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
 //#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
 //#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
 //#   define ENABLE_RGB_MATRIX_MULTISPLASH
 //#   define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH
-#  define ENABLE_RGB_MATRIX_SPLSH_
+#  define ENABLE_RGB_MATRIX_SPLASH
 #endif

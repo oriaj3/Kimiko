@@ -15,4 +15,4 @@ SPLIT_TRANSPORT = mirror
 LTO_ENABLE = yes
 MOUSEKEY_ENABLE = no 
 CONSOLE_ENABLE = no
-EXTRAKEY_ENABLE = no
+EXTRAKEY_ENABLE = yes # Audio control and System control
