@@ -148,6 +148,24 @@ void render_space(void) {
     oled_write_P(PSTR("     "), false);
 }
 
+/* void render_rgb_status(void) {
+    static char temp[2] = {0};
+    snprintf(temp, sizeof(temp) + 1, "RGB:%3d", rgb_matrix_config.mode); 
+    oled_write(temp, false);
+
+
+
+
+    ORIGINAL
+    
+    void render_rgb_status(void) {
+    oled_write_ln("RGB:", false);
+    static char temp[20] = {0};
+    snprintf(temp, sizeof(temp) + 1, "M:%3dH:%3dS:%3dV:%3d", rgb_matrix_config.mode, rgb_matrix_config.hsv.h, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v);
+    oled_write(temp, false);
+}
+} */
+
 void render_mod_status_gui_alt(uint8_t modifiers) {
     static const char PROGMEM gui_off_1[] = {0x85, 0x86, 0};
     static const char PROGMEM gui_off_2[] = {0xa5, 0xa6, 0};
@@ -464,7 +482,7 @@ void render_status_secondary(void) {
     switch (get_highest_layer(layer_state)) {
             // If the Default (QWERTY) layer is active
             case _QWERTY:
-                   render_space();
+                    render_space();
                     render_space();
                     render_logo();
                     render_space();
@@ -483,7 +501,7 @@ void render_status_secondary(void) {
                 break;
             // If the ADJUST layer is active
             case _ADJUST:
-                  render_space();
+                    render_space();
                     render_space();
                     render_logo();
                     render_space();
@@ -502,6 +520,7 @@ void render_status_secondary(void) {
    
 
 bool oled_task_user(void) {
+    //Mano derecha principal
     if (is_keyboard_master()) {
         render_status_main();  // Renders the current keyboard state (layer, lock, caps, scroll, etc)
     } else {
@@ -583,8 +602,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                 }
                 break;
         }
-    }
-    return true;
+    }  return false;
 }
 #endif // ENCODER_ENABLE
 
@@ -665,77 +683,6 @@ led_config_t g_led_config = { {
         }
     }
     } */
+
+
 #endif 
-
-
-
-///FUNCIONA PERO RGB CAMBIADOS
-/*
-#ifdef RGB_MATRIX_ENABLE
-led_config_t g_led_config = { {
-    {  24,  23,  18,  17,  10,   9 },
-    {  25,  22,  19,  16,  11,   8 },
-    {  26,  21,  20,  15,  12,   7 },
-    { NO_LED, NO_LED, NO_LED,  14,  13,   6 },
-    {  51,  50,  45,  44,  37,  36 },
-    {  52,  49,  46,  43,  38,  35 },
-    {  53,  48,  47,  42,  39,  34 },
-    { NO_LED, NO_LED, NO_LED,  41,  40,  33 }
-}, {
-    {  85,  16 }, {  50,  13 }, {  16,  20 }, {  16,  38 }, {  50,  48 }, {  85,  52 }, {  95,  63 },
-    {  85,  39 }, {  85,  21 }, {  85,   4 }, {  68,   2 }, {  68,  19 }, {  68,  37 }, {  80,  58 },
-    {  60,  55 }, {  50,  35 }, {  50,  13 }, {  50,   0 }, {  33,   3 }, {  33,  20 }, {  33,  37 },
-    {  16,  42 }, {  16,  24 }, {  16,   7 }, {   0,   7 }, {   0,  24 }, {   0,  41 }, { 139,  16 },
-    { 174,  13 }, { 208,  20 }, { 208,  38 }, { 174,  48 }, { 139,  52 }, { 129,  63 }, { 139,  39 },
-    { 139,  21 }, { 139,   4 }, { 156,   2 }, { 156,  19 }, { 156,  37 }, { 144,  58 }, { 164,  55 },
-    { 174,  35 }, { 174,  13 }, { 174,   0 }, { 191,   3 }, { 191,  20 }, { 191,  37 }, { 208,  42 },
-    { 208,  24 }, { 208,   7 }, { 224,   7 }, { 224,  24 }, { 224,  41 }
-}, {
-    2, 2, 2, 2, 2, 2, 1,
-    4, 4, 4, 4, 4, 4, 1,
-    1, 4, 4, 4, 4, 4, 4,
-    4, 4, 4, 1, 1, 1, 2,
-    2, 2, 2, 2, 2, 1, 4,
-    4, 4, 4, 4, 4, 1, 1,
-    4, 4, 4, 4, 4, 4, 4,
-    4, 4, 1, 1, 1
-} };
-#endif
-*/
-
-/* #ifdef RGB_MATRIX_ENABLE
-led_config_t g_led_config = { {
-    {  11,  10,   9,   8,   7,   6 },
-    {  12,  13,  14,  15,  16,  17 },
-    {  23,  22,  21,  20,  19,  18 },
-    {  24,  25,  26,  27,  28,  29 },
-    {  NO_LED,      34,  33,  32,  31,  30 },
-    {  46,  45,  44,  43,  42,  41 },
-    {  47,  48,  49,  50,  51,  52 },
-    {  58,  57,  56,  55,  54,  53 },
-    {  59,  60,  61,  62,  63,  64 },
-    {  NO_LED,      69,  68,  67,  66,  65 }
-}, {
-    {  89, 55 }, {  54, 52 }, {  19, 42 }, {  19, 13 }, {  54,  9 }, {  89, 12 }, {  89,  4 },
-    {  72,  3 }, {  54,  1 }, {  37,  2 }, {  19,  6 }, {   1,  7 }, {   1, 21 }, {  19, 20 },
-    {  37, 17 }, {  54, 16 }, {  72, 17 }, {  89, 19 }, {  89, 33 }, {  72, 31 }, {  54, 30 },
-    {  37, 31 }, {  19, 35 }, {   1, 36 }, {   1, 50 }, {  19, 49 }, {  37, 46 }, {  54, 44 },
-    {  72, 46 }, {  89, 47 }, { 107, 40 }, { 104, 62 }, {  81, 61 }, {  63, 60 }, {  45, 60 },
-    { 135, 55 }, { 170, 52 }, { 205, 42 }, { 205, 13 }, { 170,  9 }, { 135, 12 }, { 135,  4 },
-    { 152,  3 }, { 170,  1 }, { 187,  2 }, { 205,  6 }, { 223,  7 }, { 223, 21 }, { 205, 20 },
-    { 187, 17 }, { 170, 16 }, { 152, 17 }, { 135, 19 }, { 135, 33 }, { 152, 31 }, { 170, 30 },
-    { 187, 31 }, { 205, 35 }, { 223, 36 }, { 223, 50 }, { 205, 49 }, { 187, 46 }, { 170, 44 },
-    { 152, 46 }, { 135, 47 }, { 117, 40 }, { 120, 62 }, { 143, 61 }, { 161, 60 }, { 179, 60 }
-}, {
-    2, 2, 2, 2, 2, 2, 4,
-    4, 4, 4, 4, 1, 1, 4,
-    4, 4, 4, 4, 4, 4, 4,
-    4, 4, 1, 1, 4, 4, 4,
-    4, 4, 4, 1, 1, 1, 1,
-    2, 2, 2, 2, 2, 2, 4,
-    4, 4, 4, 4, 1, 1, 4,
-    4, 4, 4, 4, 4, 4, 4,
-    4, 4, 1, 1, 4, 4, 4,
-    4, 4, 4, 1, 1, 1, 1
-} };
-#endif */

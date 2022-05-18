@@ -7,12 +7,10 @@ RGB_MATRIX_ENABLE = yes
 RGB_MATRIX_DRIVER = WS2812
 
 SPLIT_KEYBOARD = yes
-SPLIT_TRANSPORT = mirror
+SPLIT_TRANSPORT = MIRROR
 
- #Link Time Optimizations.
-# Reduce compiled size, but will automatically disable the legacy TMK Macros and Functions features.
-# This does not affect QMK Macros and Layers
-LTO_ENABLE = yes
 MOUSEKEY_ENABLE = no 
 CONSOLE_ENABLE = no
 EXTRAKEY_ENABLE = yes # Audio control and System control
+
+LTO_ENABLE = yes
